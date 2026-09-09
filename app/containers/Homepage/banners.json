@@ -1,0 +1,15 @@
+[
+  {
+    "//": "Hero carousel slides for Homepage — link/title/content are unused placeholders (Homepage only ever renders imageUrl).",
+    "imageUrl": "/images/banners/banner-3.jpg",
+    "link": "",
+    "title": "",
+    "content": "<p></p>\n"
+  },
+  {
+    "imageUrl": "/images/banners/banner-4.jpg",
+    "link": "",
+    "title": "",
+    "content": "<p></p>\n"
+  }
+]

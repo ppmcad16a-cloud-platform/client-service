@@ -1,0 +1,67 @@
+/*
+ *
+ * WishList actions
+ *
+ */
+
+import { success, warning } from 'react-notification-system-redux';
+import axios from 'axios';
+
+import { FETCH_WISHLIST, SET_WISHLIST_LOADING } from './constants';
+import handleError from '../../utils/error';
+import { API_URL } from '../../constants';
+
+// WishList duck. Toggling a product's wishlist state re-fetches the whole
+// list afterward rather than patching the single item locally — simple, at
+// the cost of an extra round trip per toggle.
+export const updateWishlist = (isLiked, productId) => {
+  return async (dispatch, getState) => {
+    try {
+      // Anonymous users get a "please login" toast instead of a request —
+      // there's no guest/local wishlist the way there is a guest cart.
+      if (getState().authentication.authenticated === true) {
+        const response = await axios.post(`${API_URL}/wishlist`, {
+          isLiked,
+          product: productId
+        });
+
+        const successfulOptions = {
+          title: `${response.data.message}`,
+          position: 'tr',
+          autoDismiss: 1
+        };
+
+        if (response.data.success === true) {
+          dispatch(success(successfulOptions));
+          dispatch(fetchWishlist());
+        }
+      } else {
+        const retryOptions = {
+          title: `Please login to wishlist a product`,
+          position: 'tr',
+          autoDismiss: 1
+        };
+        dispatch(warning(retryOptions));
+      }
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+// fetch wishlist api
+export const fetchWishlist = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({ type: SET_WISHLIST_LOADING, payload: true });
+
+      const response = await axios.get(`${API_URL}/wishlist`);
+
+      dispatch({ type: FETCH_WISHLIST, payload: response.data.wishlist });
+    } catch (error) {
+      handleError(error, dispatch);
+    } finally {
+      dispatch({ type: SET_WISHLIST_LOADING, payload: false });
+    }
+  };
+};
