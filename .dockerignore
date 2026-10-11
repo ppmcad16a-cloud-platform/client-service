@@ -1,0 +1,11 @@
+# Only what the build needs is sent to "docker build".
+node_modules
+dist
+coverage
+.git
+.github
+.env
+.env.*
+*.md
+Dockerfile
+.dockerignore
