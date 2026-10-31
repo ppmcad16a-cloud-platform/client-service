@@ -13,8 +13,7 @@ import Input from '../../Common/Input';
 import Button from '../../Common/Button';
 
 // Dashboard "Account Details" tab: view-only email display plus an editable
-// profile form (name/phone). Email itself isn't editable here — see the
-// commented-out block below, left as a TODO for a dedicated email-change flow.
+// profile form (name/phone). The e-mail address cannot be changed here.
 const AccountDetails = props => {
   const { user, accountChange, updateProfile } = props;
 
@@ -57,19 +56,6 @@ const AccountDetails = props => {
               }}
             />
           </Col>
-          {/* TODO: update email feature to be added instead form change */}
-          {/* <Col xs='12' md='6'>
-            <Input
-              type={'text'}
-              label={'Email'}
-              name={'email'}
-              placeholder={'Please Enter Your Email'}
-              value={user.email ? user.email : ''}
-              onInputChange={(name, value) => {
-                accountChange(name, value);
-              }}
-            />
-          </Col> */}
           <Col xs='12' md='12'>
             <Input
               type={'text'}
